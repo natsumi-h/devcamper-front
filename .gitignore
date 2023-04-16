@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-!node_modules/next-auth/types.d.ts
+!/node_modules/next-auth/core/types.d.ts
 /.pnp
 .pnp.js
 
