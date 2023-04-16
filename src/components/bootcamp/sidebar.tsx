@@ -13,9 +13,11 @@ type Props = {
   };
 };
 
+
+
 const Sidebar: FC<Props> = ({ bootcamp }) => {
   const { data: session } = useSession();
-  
+
   const {
     website,
     averageRating,
