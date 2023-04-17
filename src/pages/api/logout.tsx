@@ -14,14 +14,31 @@ export default async function logoutHandler(
       res.setHeader(
         //HTTPのヘッダーのCookieの、tokenを空文字列にする
         "Set-Cookie",
-        cookie.serialize("token", "", {
-          httpOnly: true, //JavaScript が Document.cookie プロパティなどを介してこのクッキーにアクセスすることを禁止します。
-          secure: process.env.NODE_ENV !== "development", // クッキーが、リクエストが SSL と HTTPS プロトコルを使用して行われた場合にのみサーバーに送信されることを示します
-          expires: new Date(0),
-          sameSite: "strict", //ブラウザーが同一サイトのリクエストに対してのみクッキーを送信することを意味します。
-          path: "/",
-        })
+        [
+          cookie.serialize("token", "", {
+            httpOnly: true, //JavaScript が Document.cookie プロパティなどを介してこのクッキーにアクセスすることを禁止します。
+            secure: process.env.NODE_ENV !== "development", // クッキーが、リクエストが SSL と HTTPS プロトコルを使用して行われた場合にのみサーバーに送信されることを示します
+            expires: new Date(0),
+            sameSite: "strict", //ブラウザーが同一サイトのリクエストに対してのみクッキーを送信することを意味します。
+            path: "/",
+          }),
+          cookie.serialize("id", "", {
+            httpOnly: true, //JavaScript が Document.cookie プロパティなどを介してこのクッキーにアクセスすることを禁止します。
+            secure: process.env.NODE_ENV !== "development", // クッキーが、リクエストが SSL と HTTPS プロトコルを使用して行われた場合にのみサーバーに送信されることを示します
+            expires: new Date(0),
+            sameSite: "strict", //ブラウザーが同一サイトのリクエストに対してのみクッキーを送信することを意味します。
+            path: "/",
+          }),
+          cookie.serialize("role", "", {
+            httpOnly: true, //JavaScript が Document.cookie プロパティなどを介してこのクッキーにアクセスすることを禁止します。
+            secure: process.env.NODE_ENV !== "development", // クッキーが、リクエストが SSL と HTTPS プロトコルを使用して行われた場合にのみサーバーに送信されることを示します
+            expires: new Date(0),
+            sameSite: "strict", //ブラウザーが同一サイトのリクエストに対してのみクッキーを送信することを意味します。
+            path: "/",
+          }),
+        ]
       );
+
       res.status(200).json({ message: "logout success" });
     } else {
       res.status(data.error.status).json({ message: "Something went wrong" });

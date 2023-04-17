@@ -18,8 +18,6 @@ export default async function loginHandler(
     });
     const data = await mongoRes.json();
 
-    // const data = await json.data;
-
     if (mongoRes.ok) {
       // Set cookie (how many days? === 30)
       res.setHeader(
