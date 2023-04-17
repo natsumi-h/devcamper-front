@@ -4,7 +4,9 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
+import { API_URL } from "@/config/config";
 import { useManageCourses } from "@/hooks/useManageCourses";
 
 const ManageCourses = () => {
@@ -53,11 +55,12 @@ const ManageCourses = () => {
                   <div className="card mb-3">
                     <div className="row no-gutters">
                       <div className="col-md-4">
-                        {/* <img
-                          src="img/image_1.jpg"
+                        <Image
+                          src={`${API_URL}/uploads/${usersBootcamp.photo}`}
                           className="card-img"
-                          alt="..."
-                        /> */}
+                          alt={`${usersBootcamp.photo}`}
+                          fill
+                        />
                       </div>
                       <div className="col-md-8">
                         <div className="card-body">
