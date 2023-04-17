@@ -4,19 +4,16 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useFetcher } from "./useFetcher";
+import { useGetValueFromLocalStorage } from "./useGetTokenFromLocalStorage";
 import { API_URL } from "@/config/config";
 
 export const useEditCourses = (courseId: string) => {
-  const token =
-    (typeof window !== "undefined" && window.localStorage.getItem("token")) ||
-    "";
+  const { value: token } = useGetValueFromLocalStorage("token");
   const router = useRouter();
 
   // Bootcampの情報を取得する
   const url = `${API_URL}/api/v1/bootcamps`;
-  const userId =
-    (typeof window !== "undefined" && window.localStorage.getItem("userId")) ||
-    "";
+  const { value: userId } = useGetValueFromLocalStorage("userId");
   const { data, error, isLoading } = useFetcher(url, token);
 
   const usersBootcamp = data?.data.filter(

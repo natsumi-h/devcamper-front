@@ -1,14 +1,11 @@
 import { toast } from "react-toastify";
 import { useFetcher } from "./useFetcher";
+import { useGetValueFromLocalStorage } from "./useGetTokenFromLocalStorage";
 import { API_URL } from "@/config/config";
 
 export const useManageCourses = () => {
-  const token =
-    (typeof window !== "undefined" && window.localStorage.getItem("token")) ||
-    "";
-  const userId =
-    (typeof window !== "undefined" && window.localStorage.getItem("userId")) ||
-    "";
+  const { value: token } = useGetValueFromLocalStorage("token");
+  const { value: userId } = useGetValueFromLocalStorage("userId");
   const url = `${API_URL}/api/v1/bootcamps`;
   const { data, error, isLoading } = useFetcher(url, token);
   const usersBootcamp = data?.data.filter(

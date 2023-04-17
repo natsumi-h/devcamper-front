@@ -3,14 +3,13 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { useGetValueFromLocalStorage } from "./useGetTokenFromLocalStorage";
 import { API_URL, NEXT_URL } from "@/config/config";
 
 export const useManageAccount = () => {
   const router = useRouter();
   type Form = z.infer<typeof schema>;
-  const token =
-    (typeof window !== "undefined" && window.localStorage.getItem("token")) ||
-    "";
+  const { value: token } = useGetValueFromLocalStorage("token");
   console.log(token);
 
   const schema = z.object({

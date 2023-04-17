@@ -4,18 +4,14 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { useGetValueFromLocalStorage } from "./useGetTokenFromLocalStorage";
 import { API_URL, NEXT_URL } from "@/config/config";
 
 export const useManageBootcamp = () => {
   const router = useRouter();
   const url = `${API_URL}/api/v1/bootcamps`;
-  const token =
-    (typeof window !== "undefined" && window.localStorage.getItem("token")) ||
-    "";
-
-  const userId =
-    (typeof window !== "undefined" && window.localStorage.getItem("userId")) ||
-    "";
+  const { value: token } = useGetValueFromLocalStorage("token");
+  const { value: userId } = useGetValueFromLocalStorage("userId");
 
   const [data, setData] = useState<any>(null);
 
@@ -132,6 +128,6 @@ export const useManageBootcamp = () => {
     onSubmit,
     errors,
     isValid,
-    watch
+    watch,
   };
 };

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useFetcher } from "./useFetcher";
+import { useGetValueFromLocalStorage } from "./useGetTokenFromLocalStorage";
 import { API_URL } from "@/config/config";
 
 export const useManageReviews = () => {
@@ -12,9 +13,7 @@ export const useManageReviews = () => {
   const token =
     (typeof window !== "undefined" && window.localStorage.getItem("token")) ||
     "";
-  const userId =
-    (typeof window !== "undefined" && window.localStorage.getItem("userId")) ||
-    "";
+  const { value: userId } = useGetValueFromLocalStorage("userId");
 
   const { data, error, isLoading } = useFetcher(url, token);
 

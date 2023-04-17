@@ -4,12 +4,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useFetcher } from "./useFetcher";
+import { useGetValueFromLocalStorage } from "./useGetTokenFromLocalStorage";
 import { API_URL } from "@/config/config";
 
 export const useEditReviews = (reviewId: string) => {
-  const token =
-    (typeof window !== "undefined" && window.localStorage.getItem("token")) ||
-    "";
+  const { value: token } = useGetValueFromLocalStorage("token");
   const router = useRouter();
   const url = `${API_URL}/api/v1/reviews/${reviewId}`;
   const {
