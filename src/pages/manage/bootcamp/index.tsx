@@ -1,3 +1,4 @@
+import { error } from "console";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,9 +18,8 @@ const ManageBootcamp: NextPage<Props> = () => {
     register,
     handleSubmit,
     onSubmit,
-    errors,
-    isValid,
     watch,
+    fetchError,
   } = useManageBootcamp();
 
   return (
@@ -29,7 +29,9 @@ const ManageBootcamp: NextPage<Props> = () => {
           <div className="card bg-white py-2 px-4">
             <div className="card-body">
               <h1 className="mb-2">Manage Bootcamp</h1>
-              {!usersBootcamp ? (
+              {!data && !fetchError && <p>Loading...</p>}
+              {fetchError && <p>{fetchError}</p>}
+              {data && !usersBootcamp && !fetchError && (
                 <>
                   <p className="lead">You have not yet added a bootcamp</p>
                   <Link
@@ -39,7 +41,9 @@ const ManageBootcamp: NextPage<Props> = () => {
                     Add Bootcamp
                   </Link>
                 </>
-              ) : (
+              )}
+
+              {usersBootcamp && (
                 <>
                   <div className="card mb-3">
                     <div className="row no-gutters">

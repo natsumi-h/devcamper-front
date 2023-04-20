@@ -14,6 +14,7 @@ export const useManageBootcamp = () => {
   const { value: userId } = useGetValueFromLocalStorage("userId");
 
   const [data, setData] = useState<any>(null);
+  const [fetchError, setFetchError] = useState<any>(null);
 
   const usersBootcamp = data?.data.data.filter(
     (bootcamp: any) => bootcamp.user === userId
@@ -68,15 +69,23 @@ export const useManageBootcamp = () => {
 
   // useCallBackで、fetchData関数をメモ化し、関数の引数に変更があった場合のみに実行するようにする
   const fetchData = useCallback(async () => {
-    const res = await fetch(`${NEXT_URL}/api/bootcamp`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await res.json();
-    console.log("fetchData");
-    setData(json);
+    try {
+      const res = await fetch(`${NEXT_URL}/api/bootcamp`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setFetchError(json.message);
+        throw new Error(json.message);
+      }
+      setData(json);
+    } catch (error) {
+      console.log(error);
+      setFetchError("something went wrong");
+    }
   }, []);
 
   // マウント時にfetchData関数を実行
@@ -129,5 +138,6 @@ export const useManageBootcamp = () => {
     errors,
     isValid,
     watch,
+    fetchError,
   };
 };

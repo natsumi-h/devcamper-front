@@ -40,7 +40,7 @@ const MainCol = () => {
   );
 
   if (isLoading) {
-    return <>Loading</>;
+    return <>Loading...</>;
   }
 
   if (error) {
