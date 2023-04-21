@@ -6,6 +6,7 @@ import {
   NextPage,
 } from "next";
 
+import Courses from "@/components/bootcamp/courses";
 import MainCol from "@/components/bootcamp/mainCol";
 import Sidebar from "@/components/bootcamp/sidebar";
 import { Bootcamp } from "@/components/bootcamps/mainCol";
@@ -15,14 +16,26 @@ type Props = {
   bootcamp: {
     data: Bootcamp;
   };
+  courses: {
+    data: {
+      _id: string;
+      title: string;
+      weeks: string;
+      minimumSkill: string;
+      description: string;
+      scholarshipAvailable: boolean;
+    }[];
+  };
 };
 
-const DetailPage: NextPage<Props> = ({ bootcamp }) => {
+const DetailPage: NextPage<Props> = ({ bootcamp, courses }) => {
   return (
     <section className="bootcamp mt-5">
       <div className="container">
         <div className="row">
-          <MainCol bootcamp={bootcamp}></MainCol>
+          <MainCol bootcamp={bootcamp}>
+            <Courses courses={courses} />
+          </MainCol>
           <Sidebar bootcamp={bootcamp}></Sidebar>
         </div>
       </div>
@@ -50,9 +63,14 @@ export const getStaticProps: GetStaticProps = async (
   const { id } = ctx.params!;
   const bootcampRes = await fetch(`${API_URL}/api/v1/bootcamps/${id}`);
   const bootcamp = await bootcampRes.json();
+
+  const coursesRes = await fetch(`${API_URL}/api/v1/bootcamps/${id}/courses`);
+  const courses = await coursesRes.json();
+
   return {
     props: {
       bootcamp,
+      courses,
     },
     revalidate: 10,
   };

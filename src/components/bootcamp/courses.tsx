@@ -1,35 +1,38 @@
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
-import { useCourses } from "@/hooks/useCourses";
+// import { useCourses } from "@/hooks/useCourses";
 
 type Props = {
-  id: string;
+  // id: string;
+  courses: {
+    data: {
+      _id: string;
+      title: string;
+      weeks: string;
+      minimumSkill: string;
+      description: string;
+      scholarshipAvailable: boolean;
+    }[];
+  };
 };
 
-type Course = {
-  _id: string;
-  title: string;
-  weeks: string;
-  minimumSkill: string;
-  description: string;
-  scholarshipAvailable: boolean;
-};
+const Courses: FC<Props> = ({ courses }) => {
+  // const { data, error, isLoading } = useCourses(id);
 
-const Courses: FC<Props> = ({ id }) => {
-  const { data, error, isLoading } = useCourses(id);
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (error) {
+  //   return <div>Error</div>;
+  // }
 
-  if (error) {
-    return <div>Error</div>;
-  }
+  const data = courses.data;
 
   return (
     <>
-      {data.data.map((course: Course) => (
+      {data.map((course) => (
         <div className="card mb-3" key={course._id}>
           <h5 className="card-header bg-primary text-white">{course.title}</h5>
           <div className="card-body">
