@@ -13,28 +13,14 @@ export const useTop = () => {
   const schema = z
     .object({
       milesFrom: z.union([
-        z.string().max(0, { message: "Invalid Miles.It must be numbers" }),
-        z
-          .string()
-          .regex(/^\d+$/) //  numbers
-          .transform((value) => parseInt(value, 10)),
+        z.string().regex(/^\d+$/, { message: "Invalid Miles Fron" }), //  numbers
+        z.string().max(0),
       ]),
+
       zipcode: z.union([
-        z
-          .string()
-          .max(0, { message: "Invalid zipcode.It must be 5 digit numbers" }),
-        z
-          .string()
-          .regex(/^0?\d{4}$/)
-          .transform((value) => {
-            // マッチした場合は、先頭に0を追加して5桁の数字に変換する
-            return value.padStart(5, "0");
-          }),
-        z
-          .string()
-          .regex(/^\d{5}$/) // 5 digit numbers
-          .transform((value) => parseInt(value, 10)),
-      ]),
+        z.string().regex(/^0?\d{5}$/, { message: "Invalid Zipcode" }),
+        z.string().max(0),
+      ]), // 5 digit numbers
     })
     .refine(
       (data) =>

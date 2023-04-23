@@ -11,10 +11,13 @@ export const useBootcampsMainCol = (
 ) => {
   const [page] = useAtom(bootcampsPage);
 
+  // nページ目のデータを取得する
   const url =
     (zipcode === "" || miles === "") && rating === "" && budget === ""
-      ? `${API_URL}/api/v1/bootcamps?limit=${limit}&page=${page}`
-      : zipcode !== "" && miles !== ""
+      ? // 全部空文字の場合
+        `${API_URL}/api/v1/bootcamps?limit=${limit}&page=${page}`
+      : // zipcodeとmilesがある場合
+      zipcode !== "" && miles !== ""
       ? `${API_URL}/api/v1/bootcamps/radius/${zipcode}/${miles}?limit=${limit}&page=${page}`
       : // ratingもbudgetもある場合
       rating !== "" && budget !== ""
@@ -30,5 +33,28 @@ export const useBootcampsMainCol = (
 
   const { data, error, isLoading } = useFetcher(url, token);
 
-  return { data, error, isLoading };
+  // 全部のデータを取得する
+  const allDataUrl =
+    // 全部空文字の場合
+    (zipcode === "" || miles === "") && rating === "" && budget === ""
+      ? `${API_URL}/api/v1/bootcamps`
+      : // zipcodeとmilesがある場合
+      zipcode !== "" && miles !== ""
+      ? `${API_URL}/api/v1/bootcamps/radius/${zipcode}/${miles}`
+      : // ratingもbudgetもある場合
+      rating !== "" && budget !== ""
+      ? `${API_URL}/api/v1/bootcamps?averageCost[lte]=${budget}&averageRating[gte]=${rating}`
+      : // ratingがあって、budgetが空文字列の場合
+      rating !== "" && budget === ""
+      ? `${API_URL}/api/v1/bootcamps?averageRating[gte]=${rating}`
+      : // ratingが空文字列で、budgetがある場合
+      rating === "" && budget !== ""
+      ? `${API_URL}/api/v1/bootcamps?averageCost[lte]=${budget}`
+      : `${API_URL}/api/v1/bootcamps`;
+
+  const { data: allData } = useFetcher(allDataUrl, token);
+
+  console.log(allDataUrl);
+
+  return { data, error, isLoading, allData };
 };

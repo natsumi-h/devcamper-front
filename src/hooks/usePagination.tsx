@@ -1,7 +1,8 @@
 import { useAtom } from "jotai";
+import { useBootcampsMainCol } from "./useBootcampsMainCol";
 import { useFetcher } from "./useFetcher";
 import { API_URL } from "@/config/config";
-import { bootcampsPage } from "@/state/bootcamps";
+import { bootcampsAtom, bootcampsPage } from "@/state/bootcamps";
 
 type Data = {
   pagination: {
@@ -14,10 +15,10 @@ type Data = {
   };
 };
 
-export const usePagination = (data: Data) => {
-  const allBootcampDataUrl = `${API_URL}/api/v1/bootcamps`;
-  const token = "";
-  const { data: allBootcampsData } = useFetcher(allBootcampDataUrl, token);
+export const usePagination = (allData: Data) => {
+  // const allBootcampDataUrl = `${API_URL}/api/v1/bootcamps`;
+  // const token = "";
+  // const { data: allBootcampsData } = useFetcher(allBootcampDataUrl, token);
 
   const [page, setPage] = useAtom(bootcampsPage);
 
@@ -26,18 +27,17 @@ export const usePagination = (data: Data) => {
   };
 
   const onClickPrev = () => {
-    setPage(data.pagination.prev?.page);
+    setPage(allData.pagination.prev?.page);
   };
 
   const onClickNext = () => {
-    setPage(data.pagination.next?.page);
+    setPage(allData.pagination.next?.page);
   };
 
   return {
     onClickHandler,
     onClickPrev,
     onClickNext,
-    allBootcampsData,
     page,
   };
 };

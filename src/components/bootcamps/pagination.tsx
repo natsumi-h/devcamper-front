@@ -2,25 +2,31 @@ import { FC } from "react";
 import { limit } from "@/config/config";
 import { usePagination } from "@/hooks/usePagination";
 
-type Props = {
-  data: {
-    pagination: {
-      prev: {
-        page: number;
-      };
-      next: {
-        page: number;
-      };
+type Data = {
+  count: number;
+  pagination: {
+    prev: {
+      page: number;
+    };
+    next: {
+      page: number;
     };
   };
 };
 
-const Pagination: FC<Props> = ({ data }) => {
-  const { onClickHandler, onClickPrev, onClickNext, allBootcampsData, page } =
-    usePagination(data);
+type Props = {
+  allData: Data;
+  data: Data;
+};
 
-  if (allBootcampsData) {
-    const totalCount = allBootcampsData.count; //57
+const Pagination: FC<Props> = ({ allData, data }) => {
+  const { onClickHandler, onClickPrev, onClickNext, page } =
+    usePagination(allData);
+
+  console.log(data);
+
+  if (allData) {
+    const totalCount = allData.count; //57
     const totalPages = Math.ceil(totalCount / limit); //12
     const pageNumbersArray = Array.from(Array(totalPages).keys()); // [0,1,2,3,4,5,6,7,8,9,10,11]
     return (

@@ -8,35 +8,17 @@ export const useBootcampsLocation = () => {
   type Form = z.infer<typeof schema>;
   const [_, setData] = useAtom(bootcampsAtom);
 
-  const schema = z
-    .object({
-      milesFrom: z
-        .string()
-        .regex(/^\d+$/) //  numbers
-        .transform((value) => parseInt(value, 10)),
+  const schema = z.object({
+    milesFrom: z
+      .string()
+      .min(1, { message: "Miles From is required" })
+      .regex(/^\d+$/, { message: "Invalid Miles From" }), //  numbers
 
-      zipcode: z.union([
-        z
-          .string()
-          .regex(/^0?\d{4}$/)
-          .transform((value) => {
-            // マッチした場合は、先頭に0を追加して5桁の数字に変換する
-            return value.padStart(5, "0");
-          }),
-        z
-          .string()
-          .regex(/^\d{5}$/) // 5 digit numbers
-          .transform((value) => parseInt(value, 10)),
-      ]),
-    })
-    .refine(
-      (data) =>
-        (!data.zipcode && !data.milesFrom) || (data.zipcode && data.milesFrom),
-      {
-        message: "Either Zipcode or Miles must be defined",
-        path: ["milesFrom"],
-      }
-    );
+    zipcode: z
+      .string()
+      .min(1, { message: "Zipcode is required" })
+      .regex(/^\d{5}$/, { message: "Invalid Zipcode" }), // 5 digit numbers
+  });
 
   const {
     register,

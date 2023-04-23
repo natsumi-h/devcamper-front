@@ -32,7 +32,7 @@ export type Bootcamp = {
 const MainCol = () => {
   const [jotaiData] = useAtom(bootcampsAtom);
 
-  const { data, error, isLoading } = useBootcampsMainCol(
+  const { data, error, isLoading, allData } = useBootcampsMainCol(
     jotaiData.zipcode,
     jotaiData.milesFrom,
     jotaiData.rating,
@@ -96,7 +96,7 @@ const MainCol = () => {
       ))}
 
       {/* <!-- Pagination --> */}
-      <Pagination data={data}></Pagination>
+      <Pagination allData={allData} data={data}></Pagination>
     </div>
   );
 };

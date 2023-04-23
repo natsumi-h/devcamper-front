@@ -1,7 +1,9 @@
 import { useBootcampsLocation } from "@/hooks/useBootcampsLocation";
 
 const LocationForm = () => {
-  const { register, handleSubmit, errors, onSubmit } = useBootcampsLocation();
+  const { register, handleSubmit, errors, onSubmit} =
+    useBootcampsLocation();
+
   return (
     <div className="card card-body mb-4">
       <h4 className="mb-3">By Location</h4>
