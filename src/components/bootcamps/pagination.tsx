@@ -23,8 +23,6 @@ const Pagination: FC<Props> = ({ allData, data }) => {
   const { onClickHandler, onClickPrev, onClickNext, page } =
     usePagination(allData);
 
-  console.log(data);
-
   if (allData) {
     const totalCount = allData.count; //57
     const totalPages = Math.ceil(totalCount / limit); //12
